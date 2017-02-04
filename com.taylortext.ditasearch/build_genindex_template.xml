@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="build_genindex_targets" basedir="."
+    xmlns:dita="http://dita-ot.sourceforge.net">
+    
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${dita.dir}/../ant-contrib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+    
+    <!-- Plugin requiring a generated index must set genindex=true -->
+    <property name="genindex.configfile" value=""/>
+    
+    <!-- PREPROCESSING -->
+    <target name="gen-nosearch-list" if="${genindex}">
+        <xslt basedir="${dita.temp.dir}"
+            includesfile="${dita.temp.dir}/fullditamap.list" 
+            destdir="${dita.temp.dir}"
+            style="${dita.plugin.net.webassign.genindex.dir}/xsl/gen-nosearch-list.xsl"
+            failOnError="true" extension=".nosearch">
+            <xmlcatalog refid="dita.catalog"/>
+        </xslt>
+        <concat destfile="${dita.temp.dir}/nosearch.list" fixlastline="yes">
+            <path>
+                <fileset dir="${dita.temp.dir}">
+                    <include name="*.nosearch"/>
+                    <include name="resourceonly.list"/>
+                </fileset>
+            </path>
+            <filterchain><!-- sort list entries and remove duplicates -->
+                <sortfilter/>
+                <tokenfilter>
+                    <uniqfilter/>
+                </tokenfilter>
+            </filterchain>
+        </concat>
+        <loadfile property="nosearchlist" srcfile="${dita.temp.dir}/nosearch.list"/>
+    </target>
+    
+    <!-- MAIN -->
+    <target name="gen-index" 
+        dita:depends="
+            {net.webassign.genindex.pre}, 
+            genindex-noindex,
+            genindex-searchindex,
+            {net.webassign.genindex.post}
+            "
+        dita:extension="depends org.dita.dost.platform.InsertDependsAction">
+        <!--<dita:extension id="net.webassign.genindex.pre" behavior="org.dita.dost.platform.InsertAction"/>
+        <dita:extension id="net.webassign.genindex.post" behavior="org.dita.dost.platform.InsertAction"/>-->
+    </target>
+    
+    <target name="genindex-searchindex" description="Generate a JSON index of the help content." if="${genindex}"
+        depends="genindex-configfile">
+        <!-- Future: generate & use searchtargets list of topics for which @search != no -->
+        <!-- Index each topic individually first -->
+        <xslt basedir="${dita.temp.dir}"
+            includesfile="${dita.temp.dir}/fullditatopic.list"
+            excludesfile="${dita.temp.dir}/nosearch.list"
+            destdir="${dita.temp.dir}"
+            style="${dita.plugin.net.webassign.genindex.dir}/xsl/stemmer.xsl"
+            filenameparameter="thisindextarget"
+            failOnError="false" extension=".idx">
+            <param name="outext" expression="${args.outext}"/>
+            <param name="configfile" expression="${dita.temp.dir}/searchconfigs.xml"/>
+            <xmlcatalog refid="dita.catalog"/>
+        </xslt>
+        <!-- Combine all topic indexes into a single file for further processing -->
+        <concat destfile="${dita.temp.dir}/allstems.idx">
+            <fileset dir="${dita.temp.dir}" includes="*.idx" excludes="allstems.idx"/>
+            <header filtering="no"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<indextopics>]]></header>
+            <footer filtering="no"><![CDATA[</indextopics>]]></footer>
+        </concat>
+        <!-- Generate JSON index file -->
+        <xslt in="${dita.temp.dir}/allstems.idx"
+            out="${output.dir}/helpindex.json"
+            style="${dita.plugin.net.webassign.genindex.dir}/xsl/stems2helpindex.xsl"
+            failOnError="false">
+            <xmlcatalog refid="dita.catalog"/>
+        </xslt>
+        <!-- Generate JSON topicsummaries file -->
+        <xslt in="${dita.temp.dir}/allstems.idx"
+            out="${output.dir}/topicsummaries.json"
+            style="${dita.plugin.net.webassign.genindex.dir}/xsl/topicsummaries.xsl"
+            failOnError="false">
+            <xmlcatalog refid="dita.catalog"/>
+        </xslt>
+    </target>
+    
+    <target name="genindex-configfile" description="Construct the XML and JSON indexing config data.">
+        <condition property="configfile.found">
+            <available file="${genindex.configfile}"/>
+        </condition>
+        <!-- Combine user and default search configs -->
+        <xslt in="${dita.plugin.net.webassign.genindex.dir}/searchconfig.xml"
+            out="${dita.temp.dir}/searchconfigs.xml"
+            style="${dita.plugin.net.webassign.genindex.dir}/xsl/init_searchconfigs.xsl"
+            failOnError="true">
+            <param name="configfile" expression="${genindex.configfile}"/>
+            <param name="configfilefound" expression="${configfile.found}"/>
+            <xmlcatalog refid="dita.catalog"/>
+        </xslt>
+        <xslt in="${dita.temp.dir}/searchconfigs.xml"
+            out="${output.dir}/searchconfigs.json"
+            style="${dita.plugin.net.webassign.genindex.dir}/xsl/searchconfigs2json.xsl"
+            failOnError="true">
+            <xmlcatalog refid="dita.catalog"/>
+        </xslt>
+    </target>
+    
+    <target name="genindex-noindex" description="Generate an empty searchconfigs file if not indexing." unless="${genindex}">
+        <echo append="no" file="${dita.temp.dir}/searchconfigs.xml" force="yes">
+            <![CDATA[<searchconfig></searchconfig>]]>
+        </echo>
+    </target>
+    
+</project>

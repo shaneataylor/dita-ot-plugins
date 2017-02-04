@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="net.webassign.genindex">
+    <feature extension="package.support.name" value="WebAssign Communications Team"/>
+    <feature extension="package.support.email" value="docs@webassign.net"/>
+    <feature extension="package.version" value="1.0"/>
+
+    <require plugin="org.dita.xhtml|org.dita.html5"/>
+    
+    <feature extension="dita.conductor.target.relative" value="conductor.xml" type="file"/>
+    <template file="build_genindex_template.xml"/>
+    <feature extension="depend.preprocess.post" value="gen-nosearch-list"/>
+    <feature extension="depend.preprocess.clean-temp.pre" value="gen-index"/>
+    <extension-point id="net.webassign.genindex.pre" name="Pre-indexing"/>
+    <extension-point id="net.webassign.genindex.post" name="Post-indexing"/>
+    
+    <feature extension="dita.xsl.messages" file="messages.xml"/>
+    <feature extension="dita.conductor.html.param" file="params.xml"/>
+</plugin>
+    
