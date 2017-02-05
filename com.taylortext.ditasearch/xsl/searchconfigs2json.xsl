@@ -16,18 +16,19 @@
     
     <xsl:strip-space elements="*"/>
     
-    <xsl:template match="/" xml:space="preserve"><xsl:text>{</xsl:text>
+    <xsl:template match="/" xml:space="preserve"><xsl:text>configs : {</xsl:text>
 <xsl:apply-templates select="searchconfig/*"/>
-<xsl:text>}</xsl:text>
+<xsl:text>},
+</xsl:text>
     </xsl:template>
     
     <xsl:template match="stopwords">
-        <xsl:text>&#10;"stopwords":"stopwords are not indexed"</xsl:text>
+        <xsl:text>&#10;stopwords:"stopwords are not indexed"</xsl:text>
         <xsl:if test="count(following-sibling::*)>0"><xsl:text>,</xsl:text></xsl:if>
     </xsl:template>
     
     <xsl:template match="exceptionalforms">
-        <xsl:text>&#10;"exceptionalforms":[</xsl:text>
+        <xsl:text>&#10;exceptionalforms:[</xsl:text>
         <xsl:apply-templates/>
         <xsl:text>]</xsl:text>
         <xsl:if test="count(following-sibling::*)>0"><xsl:text>,</xsl:text></xsl:if>
@@ -57,7 +58,7 @@
             </xsl:for-each-group>
         </xsl:variable>
         
-        <xsl:text>&#10;"synonyms":{</xsl:text>
+        <xsl:text>&#10;synonyms:{</xsl:text>
         <!-- 
         "anim":["beast","brute","creatur","fauna"],
         -->

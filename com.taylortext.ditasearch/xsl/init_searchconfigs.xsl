@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:fn="http://example.com/namespace"
-    xmlns:porter2="http://example.com/namespace"
-    exclude-result-prefixes="xs fn porter2"
+    exclude-result-prefixes="xs"
     version="2.0">
     
     <xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"/>
+    <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
     
-    <xsl:variable name="msgprefix">DOTX</xsl:variable>
-    <xsl:param name="configfile" />
-    <xsl:param name="configfilefound" />
+    <xsl:variable name="msgprefix">DS</xsl:variable><!-- needed if not really functional -->
+    <xsl:param name="configfile" select="''" as="xs:string"/>
+    <xsl:param name="configfilefound" select="'false'" as="xs:string" />
     
     <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="yes" indent="yes"/>
     
@@ -27,7 +26,7 @@
         <xsl:choose>
             <xsl:when test="$userconfigs/searchconfig/@useDefaultConfigs='addToDefault'">
                 <xsl:call-template name="output-message">
-                    <xsl:with-param name="id">GIDX103I</xsl:with-param>
+                    <xsl:with-param name="id">DS03</xsl:with-param>
                     <xsl:with-param name="msgparams">%1=<xsl:value-of select="$configfile"/></xsl:with-param>
                 </xsl:call-template>
                 <searchconfig>
@@ -47,7 +46,7 @@
             </xsl:when>
             <xsl:when test="$userconfigs/searchconfig/@useDefaultConfigs='replaceDefault'">
                 <xsl:call-template name="output-message">
-                    <xsl:with-param name="id">GIDX104I</xsl:with-param>
+                    <xsl:with-param name="id">DS04</xsl:with-param>
                     <xsl:with-param name="msgparams">%1=<xsl:value-of select="$configfile"/></xsl:with-param>
                 </xsl:call-template>
                 <searchconfig>
@@ -61,7 +60,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:call-template name="output-message">
-                    <xsl:with-param name="id">GIDX105I</xsl:with-param>
+                    <xsl:with-param name="id">DS05</xsl:with-param>
                     <xsl:with-param name="msgparams">params</xsl:with-param>
                 </xsl:call-template>
                 <searchconfig>
@@ -83,6 +82,5 @@
             <xsl:text>|</xsl:text>
         </xsl:if>
     </xsl:template>
-    
     
 </xsl:stylesheet>

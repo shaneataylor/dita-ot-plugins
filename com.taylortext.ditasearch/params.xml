@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dummy>
-    <param name="genindex" expression="${genindex}"/>
-    <param name="genindex.configfile" expression="${genindex.configfile}"/>
+    <param name="args.ditasearch.configs" expression="${args.ditasearch.configs}"/>
 </dummy>

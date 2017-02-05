@@ -8,7 +8,7 @@
     <xsl:output method="text" encoding="UTF-8" indent="no"/>
     
     <xsl:template match="/*">
-        <xsl:text>{
+        <xsl:text>helpindex : {
 </xsl:text>
         <xsl:for-each-group select="//stem" group-by="@value">
             <xsl:sort select="@value"/>
@@ -31,7 +31,8 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:text>]
-}</xsl:text>
+},
+</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each-group>

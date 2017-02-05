@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="net.webassign.genindex">
-    <feature extension="package.support.name" value="WebAssign Communications Team"/>
-    <feature extension="package.support.email" value="docs@webassign.net"/>
+<plugin id="com.taylortext.ditasearch">
+    <feature extension="package.support.name" value="Shane Taylor"/>
+    <feature extension="package.support.email" value="shane@taylortext.com"/>
     <feature extension="package.version" value="1.0"/>
 
     <require plugin="org.dita.xhtml|org.dita.html5"/>
     
     <feature extension="dita.conductor.target.relative" value="conductor.xml" type="file"/>
-    <template file="build_genindex_template.xml"/>
+    <template file="build_ditasearch_template.xml"/>
     <feature extension="depend.preprocess.post" value="gen-nosearch-list"/>
     <feature extension="depend.preprocess.clean-temp.pre" value="gen-index"/>
-    <extension-point id="net.webassign.genindex.pre" name="Pre-indexing"/>
-    <extension-point id="net.webassign.genindex.post" name="Post-indexing"/>
+    <extension-point id="com.taylortext.ditasearch.pre" name="Pre-indexing"/>
+    <extension-point id="com.taylortext.ditasearch.post" name="Post-indexing"/>
     
     <feature extension="dita.xsl.messages" file="messages.xml"/>
     <feature extension="dita.conductor.html.param" file="params.xml"/>
+    <transtype name="html5">
+        <param name="args.ditasearch.configs" desc="Search configuration." type="file"/>
+    </transtype>
+    <transtype name="xhtml">
+        <param name="args.ditasearch.configs" desc="Search configuration." type="file"/>
+    </transtype>
 </plugin>
     

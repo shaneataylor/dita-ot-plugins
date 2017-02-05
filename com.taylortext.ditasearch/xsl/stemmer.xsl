@@ -9,12 +9,18 @@
     <xsl:import href="porter2.xsl"/>
     
     <xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"/>
+    <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
     
-    <xsl:variable name="msgprefix">DOTX</xsl:variable>
+    <xsl:variable name="msgprefix">DS</xsl:variable>
     <xsl:param name="thisindextarget" />
-    <xsl:param name="outext" />
+    <xsl:param name="OUTEXT" select="'.html'" />
     <xsl:param name="configfile" /><!-- generated search configs -->
-    <xsl:param name="thishref" select="replace($thisindextarget,'\.xml$',$outext)"/>
+    <xsl:param name="thishref">
+        <xsl:call-template name="replace-extension">
+            <xsl:with-param name="filename" select="$thisindextarget"/>
+            <xsl:with-param name="extension" select="$OUTEXT"/>
+        </xsl:call-template>
+    </xsl:param>
     <xsl:param name="thisdir">
         <xsl:value-of select="concat(/processing-instruction('workdir-uri')[1],/processing-instruction('path2project-uri')[1])"/>
     </xsl:param>
@@ -256,7 +262,7 @@
             <xsl:otherwise>
                 <!-- warn user that it's not being resolved -->
                 <xsl:call-template name="output-message">
-                    <xsl:with-param name="id">GIDX096W</xsl:with-param>
+                    <xsl:with-param name="id">DS01</xsl:with-param>
                     <xsl:with-param name="msgparams">%1=<xsl:value-of select="$thisindextarget"/>;%2=<xsl:value-of select="./@href"/></xsl:with-param>
                 </xsl:call-template>
             </xsl:otherwise>

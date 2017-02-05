@@ -2,9 +2,215 @@
 <project version="18.1">
     <meta>
         <filters directoryPatterns="" filePatterns="dita-ot-plugins.xpr" positiveFilePatterns="" showHiddenFiles="false"/>
-        <options/>
+        <options>
+            <serialized version="18.1" xml:space="preserve">
+                <map>
+                    <entry>
+                        <String>external.tool.cmds</String>
+                        <xsltCustomEngines-array>
+                            <xsltCustomEngines>
+                                <field name="outEncoding">
+                                    <null/>
+                                </field>
+                                <field name="outContentType">
+                                    <String>text/shell</String>
+                                </field>
+                                <field name="errEncoding">
+                                    <null/>
+                                </field>
+                                <field name="cmd">
+                                    <String>git log --follow --decorate=short --pretty=format:"%h %aD %s" ${cfne}</String>
+                                </field>
+                                <field name="description">
+                                    <String></String>
+                                </field>
+                                <field name="name">
+                                    <String>git log (current file)</String>
+                                </field>
+                                <field name="workingDirectory">
+                                    <String>${cfd}</String>
+                                </field>
+                                <field name="keyStroke">
+                                    <null/>
+                                </field>
+                                <field name="isBuiltin">
+                                    <Boolean>false</Boolean>
+                                </field>
+                                <field name="showConsole">
+                                    <Boolean>true</Boolean>
+                                </field>
+                            </xsltCustomEngines>
+                            <xsltCustomEngines>
+                                <field name="outEncoding">
+                                    <null/>
+                                </field>
+                                <field name="outContentType">
+                                    <String>text/plain</String>
+                                </field>
+                                <field name="errEncoding">
+                                    <null/>
+                                </field>
+                                <field name="cmd">
+                                    <String>/Users/staylor/scripts/sortfile.sh ${cf}</String>
+                                </field>
+                                <field name="description">
+                                    <String></String>
+                                </field>
+                                <field name="name">
+                                    <String>sort file</String>
+                                </field>
+                                <field name="workingDirectory">
+                                    <String>${cfd}</String>
+                                </field>
+                                <field name="keyStroke">
+                                    <null/>
+                                </field>
+                                <field name="isBuiltin">
+                                    <Boolean>false</Boolean>
+                                </field>
+                                <field name="showConsole">
+                                    <Boolean>true</Boolean>
+                                </field>
+                            </xsltCustomEngines>
+                            <xsltCustomEngines>
+                                <field name="outEncoding">
+                                    <null/>
+                                </field>
+                                <field name="outContentType">
+                                    <String>text/plain</String>
+                                </field>
+                                <field name="errEncoding">
+                                    <null/>
+                                </field>
+                                <field name="cmd">
+                                    <String>echo -e "Plugin ID = ${ot-plugin} \nDITA-OT path = ${ot-path}"</String>
+                                </field>
+                                <field name="description">
+                                    <String></String>
+                                </field>
+                                <field name="name">
+                                    <String>List current configs</String>
+                                </field>
+                                <field name="workingDirectory">
+                                    <String>.</String>
+                                </field>
+                                <field name="keyStroke">
+                                    <null/>
+                                </field>
+                                <field name="isBuiltin">
+                                    <Boolean>false</Boolean>
+                                </field>
+                                <field name="showConsole">
+                                    <Boolean>true</Boolean>
+                                </field>
+                            </xsltCustomEngines>
+                            <xsltCustomEngines>
+                                <field name="outEncoding">
+                                    <null/>
+                                </field>
+                                <field name="outContentType">
+                                    <String>text/plain</String>
+                                </field>
+                                <field name="errEncoding">
+                                    <null/>
+                                </field>
+                                <field name="cmd">
+                                    <String>./dev-tools/reinstall-plugin.sh "${ot-path}" "${ot-plugin}"</String>
+                                </field>
+                                <field name="description">
+                                    <String></String>
+                                </field>
+                                <field name="name">
+                                    <String>Reinstall plugin</String>
+                                </field>
+                                <field name="workingDirectory">
+                                    <String>${pd}</String>
+                                </field>
+                                <field name="keyStroke">
+                                    <null/>
+                                </field>
+                                <field name="isBuiltin">
+                                    <Boolean>false</Boolean>
+                                </field>
+                                <field name="showConsole">
+                                    <Boolean>true</Boolean>
+                                </field>
+                            </xsltCustomEngines>
+                            <xsltCustomEngines>
+                                <field name="outEncoding">
+                                    <null/>
+                                </field>
+                                <field name="outContentType">
+                                    <String>text/plain</String>
+                                </field>
+                                <field name="errEncoding">
+                                    <null/>
+                                </field>
+                                <field name="cmd">
+                                    <String>${ot-path}/bin/dita --args.input.dir=$PWD --propertyfile test.properties --logfile log.xml -logger org.apache.tools.ant.XmlLogger --debug</String>
+                                </field>
+                                <field name="description">
+                                    <String></String>
+                                </field>
+                                <field name="name">
+                                    <String>Build samples</String>
+                                </field>
+                                <field name="workingDirectory">
+                                    <String>${pd}/../samples</String>
+                                </field>
+                                <field name="keyStroke">
+                                    <null/>
+                                </field>
+                                <field name="isBuiltin">
+                                    <Boolean>false</Boolean>
+                                </field>
+                                <field name="showConsole">
+                                    <Boolean>true</Boolean>
+                                </field>
+                            </xsltCustomEngines>
+                        </xsltCustomEngines-array>
+                    </entry>
+                    <entry>
+                        <String>key.custom.editor.variables.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>key.external.tools.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>user.defined.editor.variables</String>
+                        <userEditorVariable-array>
+                            <userEditorVariable>
+                                <field name="name">
+                                    <String>${ot-plugin}</String>
+                                </field>
+                                <field name="value">
+                                    <String>com.taylortext.ditasearch</String>
+                                </field>
+                                <field name="shortDescription">
+                                    <String></String>
+                                </field>
+                            </userEditorVariable>
+                            <userEditorVariable>
+                                <field name="name">
+                                    <String>${ot-path}</String>
+                                </field>
+                                <field name="value">
+                                    <String>/Users/shtaylor/Dev/dita-ot/build/distributions/dita-ot-2.4.2</String>
+                                </field>
+                                <field name="shortDescription">
+                                    <String></String>
+                                </field>
+                            </userEditorVariable>
+                        </userEditorVariable-array>
+                    </entry>
+                </map>
+            </serialized>
+        </options>
     </meta>
     <projectTree name="dita-ot-plugins.xpr">
         <folder path="."/>
+        <folder path="../samples/"/>
     </projectTree>
 </project>

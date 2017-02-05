@@ -15,11 +15,13 @@
     </xsl:function>
     
     <xsl:template match="/*">
-        <xsl:text>{
+        <xsl:text>topicsummaries : {
 </xsl:text>
         <xsl:apply-templates select="topicSummary"/>
         <xsl:text>
-}</xsl:text>
+}
+};
+</xsl:text>
     </xsl:template>
     
     <xsl:template match="//topicSummary">
