@@ -211,7 +211,7 @@
                 <xsl:attribute name="value" select="current-grouping-key()"/>
                 <xsl:attribute name="score" select="sum(current-group()/@weight)"/>
                 <xsl:attribute name="href" select="$thishref"/>
-                <xsl:attribute name="words" select="string-join(current-group()/@word,',')"/>
+                <xsl:attribute name="words" select="string-join(current-group()/@word,',')"/><!-- TO DO: SELECT ONLY UNIQUE WORDS -->
                 <xsl:if test="$stemmer.debug">
                     <xsl:attribute name="tbs" select="string-join(current-group()/@tbs,',')"/>
                 </xsl:if>

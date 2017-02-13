@@ -1,14 +1,21 @@
 
 /* TO DO:
- *   Test code to ensure it's not dependent on flat file structure
+ * 
+ *  add the search script to page footers
+ *  Use OT method to define strings for extensibility; add the resulting strings to this file
+ * 
+ *  TEST 
+ *      works with heirarchical file structure?
+ *      works with @copy-to?
+ *      works with branch processing/filtering?
+ * 
+ *  FUTURE/MAYBE
+ *      When indexing adds @words, remove duplicates (stemmer.xsl)
+ *      Use @words to highlight instances in the found topics
+ *      Sort combined user/default synonyms etc (if useful)
+ * 
  */
 
-// BUILD REFACTORING TO DO:
-// add minify step to improve loading for the search js?
-// SORT combined user/default synonyms etc if useful
-// add the search script to page footers
-// test with xhtml (if supporting)
-// Use OT method to define strings for extensibility; add the resulting strings to this file
 var ditasearch = {
     div : document.getElementsByClassName("ditasearch")[0],
     init      : function(){
@@ -222,24 +229,7 @@ var ditasearch = {
         apos            : "'",
         nonwordchars    : "[^a-z']",
         exceptionlist : [
-            {"skis" : "ski"},
-            {"skies" : "sky" },
-            {"dying" : "die" },
-            {"lying" : "lie" },
-            {"tying" : "tie" },
-            {"idly" : "idl" },
-            {"gently" : "gentl" },
-            {"ugly" : "ugli" },
-            {"early" : "earli" },
-            {"only" : "onli" },
-            {"singly" : "singl" },
-            {"sky" : "sky" },
-            {"news" : "news" },
-            {"howe" : "howe" },
-            {"atlas" : "atlas" },
-            {"cosmos" : "cosmos" },
-            {"bias" : "bias" },
-            {"andes" : "andes" }
+//==EXCEPTIONLIST==//
         ],
         post_s1a_exceptions : [
             {"inning" : "inning"},
@@ -496,23 +486,18 @@ var ditasearch = {
         loading : "Loading",
         noresults : "No topics found"
     },
-    // LAST 20 LINES TO BE REPLACED BY BUILD
-
-
-
-
-
-
-
-
     configs : {
         stopwords : "stopwords are not indexed",
-        exceptionalforms : [ {"gently":"gentl"} ],
-        synonyms : [ {"action":["test"]} ]
+        synonyms : { 
+//==SYNONYMS==//
+        }
     },
-    helpindex : { "action":[{"topic1.htm":"2"},{"topic2.htm":"1"}] },
-    topicsummaries : { "topic1.htm" : {"searchtitle" : "Topic 1" , "shortdesc" : "Short description"} }
+    helpindex : { 
+//==HELPINDEX==//
+    },
+    topicsummaries : { 
+//==TOPICSUMMARIES==//
+    }
 };
-
-
+(function () { ditasearch.init(); })();
 

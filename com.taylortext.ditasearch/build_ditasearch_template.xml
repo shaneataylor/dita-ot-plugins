@@ -64,64 +64,37 @@
             <param name="configfile" expression="${dita.temp.dir}/searchconfigs.xml"/>
             <xmlcatalog refid="dita.catalog"/>
         </xslt>
-        <!-- Combine all topic indexes into a single file for further processing -->
-        <concat destfile="${dita.temp.dir}/allstems.idx">
-            <fileset dir="${dita.temp.dir}" includes="*.idx" excludes="allstems.idx"/>
+        <!-- Combine topic indexes and search configs into a single file for further processing -->
+        <concat destfile="${dita.temp.dir}/temp-index.xml">
+            <fileset dir="${dita.temp.dir}">
+                <include name="*.idx"/>
+                <include name="searchconfigs.xml"/>
+            </fileset>
             <header filtering="no"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <indextopics>]]></header>
             <footer filtering="no"><![CDATA[</indextopics>]]></footer>
         </concat>
-        <delete>
-            <fileset dir="${dita.temp.dir}" includes="*.idx" excludes="allstems.idx"/>
-        </delete>
-        <!-- Generate JSON index file -->
-        <xslt in="${dita.temp.dir}/allstems.idx"
-            out="${dita.temp.dir}/helpindex.json"
-            style="${dita.plugin.com.taylortext.ditasearch.dir}/xsl/stems2helpindex.xsl"
-            failOnError="false">
+        
+        <!-- Add index and config data to the script -->
+        <xslt in="${dita.temp.dir}/temp-index.xml"
+            out="${output.dir}/ditasearch.js"
+            style="${dita.plugin.com.taylortext.ditasearch.dir}/xsl/index2js.xsl"
+            failOnError="true">
+            <param name="scriptfile" expression="${dita.plugin.com.taylortext.ditasearch.dir}/js/ditasearch.js"/>
             <xmlcatalog refid="dita.catalog"/>
         </xslt>
-        <!-- Generate JSON topicsummaries file -->
-        <xslt in="${dita.temp.dir}/allstems.idx"
-            out="${dita.temp.dir}/topicsummaries.json"
-            style="${dita.plugin.com.taylortext.ditasearch.dir}/xsl/topicsummaries.xsl"
-            failOnError="false">
-            <xmlcatalog refid="dita.catalog"/>
-        </xslt>
-        <copy file="${dita.plugin.com.taylortext.ditasearch.dir}/js/ditasearch.js"
-            todir="${dita.temp.dir}">
-            <filterchain>
-                <tailfilter lines="-1" skip="20"/><!-- Remove the last 20 lines -->
-            </filterchain>
-        </copy>
-        <concat destfile="${output.dir}/ditasearch.js">
-            <file file="${dita.temp.dir}/ditasearch.js"/>
-            <!-- TO DO: ADD STRINGS FILE/CONFIG -->
-            <file file="${dita.temp.dir}/searchconfigs.json"/>
-            <file file="${dita.temp.dir}/helpindex.json"/>
-            <file file="${dita.temp.dir}/topicsummaries.json"/>
-            <file file="${dita.plugin.com.taylortext.ditasearch.dir}/js/selfexecute.js"/>
-        </concat>
     </target>
     
-    <target name="ditasearch-configfile" description="Construct the XML and JSON indexing config data.">
+    <target name="ditasearch-configfile" description="Combine user and default search configs.">
         <condition property="configfile.found" value="true" else="false">
             <available file="${args.ditasearch.configs}"/>
         </condition>
-        
-        <!-- Combine user and default search configs -->
         <xslt in="${dita.plugin.com.taylortext.ditasearch.dir}/default-configs.xml"
             out="${dita.temp.dir}/searchconfigs.xml"
             style="${dita.plugin.com.taylortext.ditasearch.dir}/xsl/init_searchconfigs.xsl"
             failOnError="true">
             <param name="configfile" expression="${args.ditasearch.configs}"/>
             <param name="configfilefound" expression="${configfile.found}"/>
-            <xmlcatalog refid="dita.catalog"/>
-        </xslt>
-        <xslt in="${dita.temp.dir}/searchconfigs.xml"
-            out="${dita.temp.dir}/searchconfigs.json"
-            style="${dita.plugin.com.taylortext.ditasearch.dir}/xsl/searchconfigs2json.xsl"
-            failOnError="true">
             <xmlcatalog refid="dita.catalog"/>
         </xslt>
     </target>
