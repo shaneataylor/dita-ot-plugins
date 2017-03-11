@@ -6,15 +6,14 @@
 
     <require plugin="org.dita.html5"/>
     
-    <feature extension="dita.conductor.target.relative" value="conductor.xml" type="file"/>
     <template file="build_ditasearch_template.xml"/>
-    <feature extension="depend.preprocess.post" value="gen-nosearch-list"/>
-    <feature extension="depend.preprocess.clean-temp.pre" value="gen-index"/>
+    <feature extension="dita.conductor.target.relative" value="conductor.xml" type="file"/>
+    <feature extension="depend.preprocess.post" value="ditasearch"/>
     <extension-point id="com.taylortext.ditasearch.pre" name="Pre-indexing"/>
     <extension-point id="com.taylortext.ditasearch.post" name="Post-indexing"/>
     
     <feature extension="dita.xsl.messages" file="messages.xml"/>
-    <feature extension="dita.conductor.html.param" file="params.xml"/>
+    <feature extension="dita.conductor.html5.param" file="params.xml"/>
     <transtype name="html5">
         <param name="args.ditasearch.configs" desc="Search configuration." type="file"/>
     </transtype>

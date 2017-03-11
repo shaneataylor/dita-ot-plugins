@@ -1,8 +1,9 @@
 
 /* TO DO:
  * 
- *  add the search script to page footers
- *  Use OT method to define strings for extensibility; add the resulting strings to this file
+ *  Use OT method to define strings (search/loading/noresults) for extensibility
+ *      http://www.dita-ot.org/dev/dev_ref/plugin-addgeneratedtext.html
+ *      Add the resulting strings to this file
  * 
  *  TEST 
  *      works with heirarchical file structure?

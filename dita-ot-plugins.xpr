@@ -4,7 +4,7 @@
         <filters directoryPatterns="" filePatterns="dita-ot-plugins.xpr" positiveFilePatterns="" showHiddenFiles="false"/>
         <options>
             <serialized version="18.1" xml:space="preserve">
-                <map>
+                <serializableOrderedMap>
                     <entry>
                         <String>external.tool.cmds</String>
                         <xsltCustomEngines-array>
@@ -147,7 +147,7 @@
                                     <null/>
                                 </field>
                                 <field name="cmd">
-                                    <String>${ot-path}/bin/dita --args.input.dir=$PWD --propertyfile test.properties --logfile log.xml -logger org.apache.tools.ant.XmlLogger --debug</String>
+                                    <String>${ot-path}/bin/dita --args.input.dir=$PWD --propertyfile test.properties --logfile log.xml -logger org.apache.tools.ant.XmlLogger</String>
                                 </field>
                                 <field name="description">
                                     <String></String>
@@ -205,7 +205,7 @@
                             </userEditorVariable>
                         </userEditorVariable-array>
                     </entry>
-                </map>
+                </serializableOrderedMap>
             </serialized>
         </options>
     </meta>
