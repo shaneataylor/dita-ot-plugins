@@ -5,13 +5,13 @@ var ditasearch = {
                         // Functional CSS 
                         var css = document.createTextNode('\
 .ditasearch { overflow: visible; height: 1.5em;  } \
-.ditasearch > * { width: 100%; margin: 0; padding: 2px; border: 1px solid #ccc; } \
-.ditasearch > input { font: inherit; } \
-.ditasearch > nav { font-size: 1rem; max-height: 10em; overflow-y: auto; background: #eee; \
+.ditasearch > * { width: 100%; margin: 0; padding: 2px; border: 1px solid #ccc; font: inherit; } \
+.ditasearch > input {  } \
+.ditasearch > nav { max-height: 15em; overflow-y: auto; background: #ddd; \
    opacity: .9; padding: 0 2px; border-top: 0px none;} \
 .ditasearch > nav > ol { margin: 10px 0 0 0; } \
-.ditasearch > nav > ol p { margin: 0 0 10px 0; } \
-.ditasearch > nav.dspending { color: #ccc; } \
+.ditasearch > nav > ol p { margin: 0 0 10px 0; font-size: 90%; } \
+.ditasearch > nav.dspending * { color: #999; } \
 .ditasearch > nav.dshidden { display: none } \
                         ');
                         var style = document.createElement("STYLE");
@@ -173,14 +173,14 @@ var ditasearch = {
                               "shortdesc" : string,
                               "terms"     : string,
                               "score"     : number  */
-                                          
+                    var alinkbase = '<a href="' + ditasearch.div.getAttribute("data-searchroot");
                     var resultsHTML = "<ol>";
                     for (var i = 0; i < results.length; i++) {
                         var scoreattr = stemsattr = '';
                         if (typeof results[i].score == "number")  { scoreattr = ' data-score="' + results[i].score + '"'; }
                         if (typeof results[i].terms == "string")  { stemsattr = ' data-stems="' + results[i].terms + '"'; }
                         var alink = (typeof results[i].href == "string" && results[i].href.length > 0) 
-                            ? '<a' + ' href="' + results[i].href + '">' + results[i].title + '</a>'
+                            ? alinkbase + results[i].href + '">' + results[i].title + '</a>'
                             : '<p>' + results[i].title + '</p>';
                         var shortdesc = (typeof results[i].shortdesc == "string" && results[i].shortdesc.length > 0)
                                     ? '<p class="shortdesc">' + results[i].shortdesc + '</p>'

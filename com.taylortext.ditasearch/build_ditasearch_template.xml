@@ -13,7 +13,6 @@
         dita:depends="
         {com.taylortext.ditasearch.pre}, 
         ditasearch-searchindex,
-        ditasearch-html,
         {com.taylortext.ditasearch.post}
         "
         dita:extension="depends org.dita.dost.platform.InsertDependsAction">
@@ -46,39 +45,8 @@
         <loadfile property="nosearchlist" srcfile="${dita.temp.dir}/nosearch.list"/>
     </target>
     
-    <target name="ditasearch-html" depends="ditasearch-footer-addfile, ditasearch-footer-combinefiles, 
-        ditasearch-header-addfile, ditasearch-header-warn">
-        <!-- how to adjust the script src path for topics not in the root output directory??? -->
-    </target>
-    
-    <target name="ditasearch-footer-combinefiles" if="args.ftr">
-        <concat destfile="${dita.temp.dir}/ditasearch-newfooter.html" overwrite="yes" encoding="UTF-8"
-            ignoreempty="false" fixlastline="yes">
-            <file name="${args.ftr}"/>
-            <file name="${dita.plugin.com.taylortext.ditasearch.dir}/html/footer.html"/>
-            <header filtering="no"><![CDATA[<div>]]></header>
-            <footer filtering="no"><![CDATA[</div>]]></footer>
-        </concat>
-        <var name="args.ftr" unset="true"/><!-- trick to reset the property value -->
-        <property name="args.ftr" value="${dita.temp.dir}/ditasearch-newfooter.html"/>
-    </target>
-    
-    <target name="ditasearch-footer-addfile" unless="args.ftr">
-        <property name="args.ftr" value="${dita.plugin.com.taylortext.ditasearch.dir}/html/footer.html"/>
-    </target>
-    
-    <target name="ditasearch-header-addfile" unless="args.hdr">
-        <property name="args.hdr" value="${dita.plugin.com.taylortext.ditasearch.dir}/html/header.html"/>
-    </target>
-    
-    <target name="ditasearch-header-warn" if="args.hdr">
-        <echo level="warning">[ditasearch]: Your header file was not changed. 
-To include a search box, add &amp;lt;div class="ditasearch"/&amp;gt; somewhere in the page.</echo>
-    </target>
-    
     <target name="ditasearch-searchindex" description="Generate a JSON index of the help content."
         depends="ditasearch-genlist, ditasearch-configfile">
-        <!-- Future: generate & use searchtargets list of topics for which @search != no -->
         <!-- Index each topic individually first -->
         <xslt basedir="${dita.temp.dir}"
             includesfile="${dita.temp.dir}/fullditatopic.list"

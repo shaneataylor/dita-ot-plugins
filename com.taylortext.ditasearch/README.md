@@ -3,30 +3,27 @@
 Indexes HTML5 help topics
 
 ## Testing
-* works with hierarchical file structure
-  * Indexes topics in hierarchy (FIXED)
-  * Search works from nested topics (TO DO)
 * works with @copy-to?
 * works with branch processing/filtering?
 
 
 ## TO DO
 
-* Add parameter to skip adding search box & JS to HTML
-* Relativize reference to JS for all topics
-  * Override processFTR template (in topic.xsl)
-  * Override processHDR template also for consistent approach
-  * Remove html/footer|header files
-  * Update build template 
+* Pass current search terms to loaded topic so can reuse existing search
+* When changing search query, scroll to top of results
 * Use OT method to define strings (search/loading/noresults) for extensibility
   * http://www.dita-ot.org/dev/dev_ref/plugin-addgeneratedtext.html
   * Add the resulting strings to ditsearch.js
 * Index numbers such as 1540 or 15.4.0 or 1,540 
+  * Each of these examples should be indexed as identical
   * Keep only the string of digits
   * Update ditasearch.js as well
-* When changing search query, scroll to top of results
-* MAYBE: When indexing adds @words, remove duplicates (stemmer.xsl)
-* MAYBE: Use @words to highlight instances in the found topics
-* MAYBE: Sort combined user/default synonyms etc (if useful)
+
+## Future / Maybe
+* Stem words with hyphens (plug-in) by first removing the hyphen
+  Is that preferable to treating the parts as two separate words? 
+* When indexing adds @words, remove duplicates (stemmer.xsl)
+* Use @words to highlight instances in the found topics
+* Sort combined user/default synonyms etc (if useful)
 
 

@@ -16,6 +16,12 @@
     <feature extension="dita.conductor.html5.param" file="params.xml"/>
     <transtype name="html5">
         <param name="args.ditasearch.configs" desc="Search configuration." type="file"/>
+        <param name="args.ditasearch.nohtml" type="enum" 
+            desc="Omit adding the search HTML to topics if you are including them yourself.">
+            <val default="true">false</val>
+            <val>true</val>
+        </param>
     </transtype>
+    <feature extension="dita.xsl.html5" file="xsl/header-footer.xsl"/>
 </plugin>
     
