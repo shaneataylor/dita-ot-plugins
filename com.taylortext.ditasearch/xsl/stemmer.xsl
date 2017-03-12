@@ -13,11 +13,22 @@
     
     <xsl:variable name="msgprefix">DS</xsl:variable>
     <xsl:param name="thisindextarget" />
+    <xsl:param name="thisindexpath"/>
     <xsl:param name="OUTEXT" select="'.html'" />
     <xsl:param name="configfile" /><!-- generated search configs -->
     <xsl:param name="thishref">
+        <xsl:variable name="relpath">
+            <xsl:choose>
+                <xsl:when test="$thisindexpath='.'">
+                    <xsl:value-of select="$thisindextarget"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat(replace($thisindexpath,'/$',''),'/',$thisindextarget)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:call-template name="replace-extension">
-            <xsl:with-param name="filename" select="$thisindextarget"/>
+            <xsl:with-param name="filename" select="$relpath"/>
             <xsl:with-param name="extension" select="$OUTEXT"/>
         </xsl:call-template>
     </xsl:param>
@@ -211,7 +222,7 @@
                 <xsl:attribute name="value" select="current-grouping-key()"/>
                 <xsl:attribute name="score" select="sum(current-group()/@weight)"/>
                 <xsl:attribute name="href" select="$thishref"/>
-                <xsl:attribute name="words" select="string-join(current-group()/@word,',')"/><!-- TO DO: SELECT ONLY UNIQUE WORDS -->
+                <xsl:attribute name="words" select="string-join(current-group()/@word,',')"/>
                 <xsl:if test="$stemmer.debug">
                     <xsl:attribute name="tbs" select="string-join(current-group()/@tbs,',')"/>
                 </xsl:if>

@@ -1,28 +1,8 @@
-
-/* TO DO:
- * 
- *  Use OT method to define strings (search/loading/noresults) for extensibility
- *      http://www.dita-ot.org/dev/dev_ref/plugin-addgeneratedtext.html
- *      Add the resulting strings to this file
- * 
- *  TEST 
- *      works with heirarchical file structure?
- *      works with @copy-to?
- *      works with branch processing/filtering?
- * 
- *  FUTURE/MAYBE
- *      When indexing adds @words, remove duplicates (stemmer.xsl)
- *      Use @words to highlight instances in the found topics
- *      Sort combined user/default synonyms etc (if useful)
- * 
- */
-
 var ditasearch = {
     div : document.getElementsByClassName("ditasearch")[0],
     init      : function(){
                     if (typeof ditasearch.div != "undefined") {
                         // Functional CSS 
-                        // To do: add inline / external def for spinner
                         var css = document.createTextNode('\
 .ditasearch { overflow: visible; height: 1.5em;  } \
 .ditasearch > * { width: 100%; margin: 0; padding: 2px; border: 1px solid #ccc; } \

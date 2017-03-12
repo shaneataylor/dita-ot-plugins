@@ -46,16 +46,13 @@
         <xsl:value-of select="replace(replace($format,'KEY',$key),'VALUE',$value)"/>
     </xsl:function>
     
-    <!-- to do: add function or template for JSON array contents -->
-    
     <xsl:function name="fn:JSONify" as="xs:string">
         <xsl:param name="input" as="xs:string"/>
         <xsl:variable name="escape-bs" select="replace($input,'\\','\\\\')"/>
         <xsl:variable name="escape-quotes" select="replace($escape-bs,'&quot;','\\u0022')"/>
-        <xsl:value-of select="$escape-quotes"/>
+        <xsl:variable name="entity-dollar" select="replace($escape-quotes,'\$','&amp;#36;')"/>
+        <xsl:value-of select="$entity-dollar"/>
     </xsl:function>
-    
-    <!-- combine parsing from searchconfigs2json.xsl, stems2helpindex.xsl, topicsummaries.xsl -->
     
     <xsl:template match="/">
         <xsl:value-of select="substring-before($script,'//==EXCEPTIONLIST==//')"/>
@@ -139,9 +136,6 @@
     </xsl:template>
     
     <xsl:template match="synonym" mode="toJSON">
-        <!-- 
-        "anim":["beast","brute","creatur","fauna"],
-        -->
         <xsl:variable name="format" as="xs:string">"KEY":[VALUE]</xsl:variable>
         <xsl:variable name="variants">
             <xsl:apply-templates select="variant" mode="toJSON"/>

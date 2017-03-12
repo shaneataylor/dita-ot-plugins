@@ -168,6 +168,38 @@
                                     <Boolean>true</Boolean>
                                 </field>
                             </xsltCustomEngines>
+                            <xsltCustomEngines>
+                                <field name="outEncoding">
+                                    <null/>
+                                </field>
+                                <field name="outContentType">
+                                    <String>text/plain</String>
+                                </field>
+                                <field name="errEncoding">
+                                    <null/>
+                                </field>
+                                <field name="cmd">
+                                    <String>../bin/ant -f build.xml html -logfile log.xml -logger org.apache.tools.ant.XmlLogger -Dant.XmlLogger.stylesheet.uri=build_log.xsl</String>
+                                </field>
+                                <field name="description">
+                                    <String></String>
+                                </field>
+                                <field name="name">
+                                    <String>Build DITA-OT help</String>
+                                </field>
+                                <field name="workingDirectory">
+                                    <String>${homeDir}/Dev/dita-ot/build/distributions/dita-ot-2.4.2/docsrc</String>
+                                </field>
+                                <field name="keyStroke">
+                                    <null/>
+                                </field>
+                                <field name="isBuiltin">
+                                    <Boolean>false</Boolean>
+                                </field>
+                                <field name="showConsole">
+                                    <Boolean>true</Boolean>
+                                </field>
+                            </xsltCustomEngines>
                         </xsltCustomEngines-array>
                     </entry>
                     <entry>

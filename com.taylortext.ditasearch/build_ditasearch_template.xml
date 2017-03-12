@@ -86,6 +86,7 @@ To include a search box, add &amp;lt;div class="ditasearch"/&amp;gt; somewhere i
             destdir="${dita.temp.dir}"
             style="${dita.plugin.com.taylortext.ditasearch.dir}/xsl/stemmer.xsl"
             filenameparameter="thisindextarget"
+            filedirparameter="thisindexpath"
             failOnError="false" extension=".idx">
             <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
             <param name="configfile" expression="${dita.temp.dir}/searchconfigs.xml"/>
@@ -94,7 +95,7 @@ To include a search box, add &amp;lt;div class="ditasearch"/&amp;gt; somewhere i
         <!-- Combine topic indexes and search configs into a single file for further processing -->
         <concat destfile="${dita.temp.dir}/ditasearch.xml">
             <fileset dir="${dita.temp.dir}">
-                <include name="*.idx"/>
+                <include name="**/*.idx"/>
                 <include name="searchconfigs.xml"/>
             </fileset>
             <header filtering="no"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
