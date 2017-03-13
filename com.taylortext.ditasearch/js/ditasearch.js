@@ -52,20 +52,21 @@ var ditasearch = {
                     ditasearch.timer = window.setTimeout(ditasearch.search,500);
                     ditasearch.results.pending();
     },
-    "query"     : {
-        "value" : "",
-        "digits2words" : function( instring ) {
-                    var ones = instring.replace(/([a-z])1/,"$1one").replace(/1([a-z])/,"one$1");
-                    var tos = ones.replace(/([a-z])2/,"$1to").replace(/2([a-z])/,"to$1");
-                    var fors = tos.replace(/([a-z])4/,"$1for").replace(/4([a-z])/,"for$1");
-                    return fors;
+    query       : {
+        value   : "",
+        get     : function() {
+                    return ditasearch.div.input.value;
         },
-        "get"   : function() {
-                    var query = ditasearch.div.input.value;
-                    query = ditasearch.query.digits2words(query);
-                    query = query.replace(/[^'"a-zA-Z]+/," ");
-                    query = query.replace(/(^\s+|\s+$)/g,'');
-                    return query;
+        prestem : function( words ) {
+                    words = words.toLowerCase();
+                    words = words.replace(/([0-9])[,\.]+(?=[0-9])/g,"$1");
+                    words = words.replace(/([0-9][0-9,\.]*[0-9])/g," $1 ");
+                    // digits2words
+                    var ones = words.replace(/([a-z])1/g,"$1one").replace(/1([a-z])/g,"one$1");
+                    var tos = ones.replace(/([a-z])2/g,"$1to").replace(/2([a-z])/g,"to$1");
+                    var fors = tos.replace(/([a-z])4/g,"$1for").replace(/4([a-z])/g,"for$1");
+                    words = words.replace(/[^a-z0-9' ]/g," ");
+                    return words.trim();
         }
     },
     "comparestrings" : function( stringa, stringb ) {
@@ -86,8 +87,7 @@ var ditasearch = {
                     }
     },
     "search"    : function(){
-                      var query = ditasearch.query.get();
-                      query = query.replace(/"/g,"");
+                      var query = ditasearch.query.prestem( ditasearch.query.get() );
                       var terms = query.split(" ");
                       ditasearchStems = [];
                       for (var i = 0; i < terms.length; i++) { // stem each search term

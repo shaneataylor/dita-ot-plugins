@@ -627,6 +627,9 @@
         <exception word="phenomena" stem="phenomenon"/>
         <exception word="alumni" stem="alumnus"/><!-- alumnae already stems to alumna -->
         <exception word="antennae" stem="antenna"/>
+        
+        <!-- words with numbers -->
+        <exception word="html5" stem="html"/>
     </exceptionalforms>
     <synonyms>
         <synonym term="abandon"><variant>forsake</variant><variant>desert</variant></synonym>
@@ -1614,6 +1617,7 @@
         <synonym term="housewife"><variant>homemaker</variant></synonym>
         <synonym term="housing"><variant>lodging</variant></synonym>
         <synonym term="hover"><variant>levitate</variant></synonym>
+        <synonym term="html"><variant>xhtml</variant></synonym>
         <synonym term="huge"><variant>immense</variant><variant>vast</variant></synonym>
         <synonym term="humanity"><variant>humanness</variant></synonym>
         <synonym term="hunter"><variant>huntsman</variant></synonym>

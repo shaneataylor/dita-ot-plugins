@@ -37,19 +37,15 @@
     </xsl:param>
     <xsl:param name="stemmer.debug" select="false()"/>
     
-    <xsl:function name="fn:digits2words" as="xs:string">
-        <!-- 
-            replace specific digits within words with their textual equivalent:
-            1time = onetime
-            desire2learn = desiretolearn
-            4ever = forever
-        -->
-        <xsl:param name="instring" as="xs:string"/>
-        <xsl:variable name="ones" select="replace(replace($instring,'([a-z])1','$1one'),'1([a-z])','one$1')"/>
-        <xsl:variable name="tos" select="replace(replace($ones,'([a-z])2','$1to'),'2([a-z])','to$1')"/>
-        <xsl:variable name="fors" select="replace(replace($tos,'([a-z])4','$1for'),'4([a-z])','for$1')"/>
-        <xsl:value-of select="$fors"/>
-    </xsl:function>
+    <xsl:param name="classmaps">
+        <classmap ditaclass=" topic/body " element="body" weight="1" />
+        <classmap ditaclass=" topic/abstract " element="abstracts" weight="10"/>
+        <classmap ditaclass=" topic/shortdesc " element="shortdesc" first="true" weight="15"/>
+        <classmap ditaclass=" topic/keyword " element="keywords" weight="15"/>
+        <classmap ditaclass=" topic/indexterm " element="indexterms" weight="15"/>
+        <classmap ditaclass=" topic/title " element="titles" weight="7"/>
+        <classmap ditaclass=" topic/title " element="firsttitle" first="true" weight="20" />
+    </xsl:param>
     
     <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="yes" indent="yes"/>
     
@@ -66,17 +62,7 @@
         <xsl:copy-of select="$searchconfigs/searchconfig/exceptionalforms/exception"/>
     </xsl:variable>
     
-    <xsl:param name="classmaps">
-        <classmap ditaclass=" topic/body " element="body" weight="1" />
-        <classmap ditaclass=" topic/abstract " element="abstracts" weight="10"/>
-        <classmap ditaclass=" topic/shortdesc " element="shortdesc" first="true" weight="15"/>
-        <classmap ditaclass=" topic/keyword " element="keywords" weight="15"/>
-        <classmap ditaclass=" topic/indexterm " element="indexterms" weight="15"/>
-        <classmap ditaclass=" topic/title " element="titles" weight="7"/>
-        <classmap ditaclass=" topic/title " element="firsttitle" first="true" weight="20" />
-    </xsl:param>
-    <xsl:param name="classmapcount" select="count($classmaps/classmap)"/>
-    
+    <xsl:variable name="classmapcount" select="count($classmaps/classmap)"/>
     
     <!-- 
         Possibly also add @locations:
@@ -102,12 +88,20 @@
     </xsl:template>
     
     <xsl:template match="text()" mode="nodraft">
-        <xsl:param name="lowerwords">
-            <!-- lowercase & strip out nonword characters -->
-            <xsl:value-of select='concat("  ",replace(fn:digits2words(lower-case(.)),"[^a-z&apos;]","  ")," ")'/>
-        </xsl:param>
-        <!-- strip stop words -->
-        <xsl:value-of select="normalize-space(replace($lowerwords,concat('\s(',$stopwords,')\s'),' '))"/>
+        <!-- prestem -->
+        <xsl:variable name="s1" select="lower-case(.)" />
+        <!-- numeric "words" -->
+        <xsl:variable name="s2a" select="replace($s1,'([0-9])[,\.]+([0-9])','$1$2')"/>
+        <xsl:variable name="s2b" select="replace($s2a,'([0-9])[,\.]+([0-9])','$1$2')"/><!-- 2× to catch e.g., 1.5.4 without lookahead -->
+        <xsl:variable name="s2c" select="replace($s2b,'([0-9][0-9,\.]*[0-9])',' $1 ')"/>
+        <!-- digits2words -->
+        <xsl:variable name="ones" select="replace(replace($s2c,'([a-z])1','$1one'),'1([a-z])','one$1')"/>
+        <xsl:variable name="tos" select="replace(replace($ones,'([a-z])2','$1to'),'2([a-z])','to$1')"/>
+        <xsl:variable name="fors" select="replace(replace($tos,'([a-z])4','$1for'),'4([a-z])','for$1')"/>
+        <!-- strip non-word characters -->
+        <xsl:variable name="s4" select='concat(" ",replace($fors,"[^a-z0-9&apos; ]"," ")," ")'/>
+        <!-- strip stopwords -->
+        <xsl:value-of select="normalize-space(replace($s4,concat('\s(',$stopwords,')\s'),' '))"/>
     </xsl:template>
     
     <xsl:template match="@class" mode="nodraft">
@@ -194,7 +188,16 @@
     <xsl:template match="*" mode="getStems">
         
         <xsl:param name="word" select="lower-case(./text())"/>
-        <xsl:param name="stem" select="porter2:stem($word,$exceptionlist)"/>
+        <xsl:param name="stem">
+            <xsl:choose>
+                <xsl:when test="matches($word,'^[0-9]+$')">
+                    <xsl:value-of select="$word"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="porter2:stem($word,$exceptionlist)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:param>
         
         <stem>
             <xsl:attribute name="value" select="$stem"/>
@@ -222,7 +225,7 @@
                 <xsl:attribute name="value" select="current-grouping-key()"/>
                 <xsl:attribute name="score" select="sum(current-group()/@weight)"/>
                 <xsl:attribute name="href" select="$thishref"/>
-                <xsl:attribute name="words" select="string-join(current-group()/@word,',')"/>
+                <xsl:attribute name="words" select="string-join(distinct-values(current-group()/@word),',')"/>
                 <xsl:if test="$stemmer.debug">
                     <xsl:attribute name="tbs" select="string-join(current-group()/@tbs,',')"/>
                 </xsl:if>

@@ -179,7 +179,7 @@
                                     <null/>
                                 </field>
                                 <field name="cmd">
-                                    <String>../bin/ant -f build.xml html -logfile log.xml -logger org.apache.tools.ant.XmlLogger -Dant.XmlLogger.stylesheet.uri=build_log.xsl</String>
+                                    <String>../bin/ant -f build.xml html -logfile log.xml -logger org.apache.tools.ant.XmlLogger -Dant.XmlLogger.stylesheet.uri=build_log.xsl -Dclean.temp=false</String>
                                 </field>
                                 <field name="description">
                                     <String></String>
