@@ -48,9 +48,9 @@
     
     <xsl:function name="fn:JSONify" as="xs:string">
         <xsl:param name="input" as="xs:string"/>
-        <xsl:variable name="escape-bs" select="replace($input,'\\','\\\\')"/>
-        <xsl:variable name="escape-quotes" select="replace($escape-bs,'&quot;','\\u0022')"/>
-        <xsl:variable name="entity-dollar" select="replace($escape-quotes,'\$','&amp;#36;')"/>
+        <xsl:variable name="escape-bs" select="replace($input,'\\','&amp;#x5c;')"/>
+        <xsl:variable name="escape-quotes" select="replace($escape-bs,'&quot;','&amp;#x22;')"/>
+        <xsl:variable name="entity-dollar" select="replace($escape-quotes,'\$','&amp;#x24;')"/>
         <xsl:value-of select="$entity-dollar"/>
     </xsl:function>
     

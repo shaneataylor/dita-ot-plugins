@@ -3,14 +3,20 @@
 Indexes HTML5 help topics
 
 ## Testing
+* searchtitle still works?
 * works with @copy-to?
 * works with branch processing/filtering?
 
 
 ## TO DO
 
-* Use OT method to define strings (search/loading/noresults) for extensibility
+* Use OT method to define strings for extensibility
   * http://www.dita-ot.org/dev/dev_ref/plugin-addgeneratedtext.html
+  * strings include:
+    * Search
+    * Loading
+    * No results
+    * No title (in stemmer.xsl) 
   * Add the resulting strings to ditsearch.js
 
 ## Future Enhancements
