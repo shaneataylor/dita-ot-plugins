@@ -3,12 +3,6 @@
 <project name="build_ditasearch_targets" basedir="."
     xmlns:dita="http://dita-ot.sourceforge.net">
     
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath>
-            <pathelement location="${dita.plugin.com.taylortext.ditasearch.dir}/lib/ant-contrib/ant-contrib-1.0b3.jar"/>
-        </classpath>
-    </taskdef>
-    
     <target name="ditasearch" 
         dita:depends="
         {com.taylortext.ditasearch.pre}, 
