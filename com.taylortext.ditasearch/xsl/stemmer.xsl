@@ -51,8 +51,6 @@
     
     <!-- Static variables -->
     
-    <xsl:variable name="apos">'</xsl:variable>
-    
     <xsl:variable name="searchconfigs">
         <xsl:copy-of select="document($configfile)"/>
     </xsl:variable>
@@ -172,10 +170,7 @@
                 <xsl:value-of select="."/>
             </word>
         </xsl:for-each>
-        <!-- escape JSON characters (won't be needed after stripping out all but [az']) -->
-        <!--<xsl:value-of select="replace(concat(replace(., '([&quot;\\])', '\\$1'),' '),'\s+',' ')"/>-->
     </xsl:template>
-    
     
     <!-- === STEMMER === -->
     

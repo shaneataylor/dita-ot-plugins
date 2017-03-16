@@ -13,7 +13,6 @@
     <extension-point id="com.taylortext.ditasearch.post" name="Post-indexing target"/>
     
     <feature extension="dita.xsl.messages" file="messages.xml"/>
-    <feature extension="dita.conductor.html5.param" file="params.xml"/>
     <transtype name="html5">
         <param name="args.ditasearch.configs" 
             desc="Specifies an optional search configuration file containing stopwords, stemming exceptions, and synonyms.
@@ -26,6 +25,10 @@
                 and &lt;script src='{path}/ditasearch.js'&gt; script to the footer.">false</val>
         </param>
     </transtype>
+    <feature extension="dita.conductor.html5.param" file="params.xml"/>
+    <feature extension="dita.conductor.html5.toc.param" file="params.xml"/>
     <feature extension="dita.xsl.html5" file="xsl/header-footer.xsl"/>
+    <feature extension="dita.xsl.html5.toc" file="xsl/header-footer.xsl"/>
+    <feature extension="dita.xsl.html5.cover" file="xsl/header-footer.xsl"/>
 </plugin>
     

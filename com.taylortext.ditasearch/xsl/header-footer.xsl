@@ -14,16 +14,26 @@
         <xsl:value-of select="not(normalize-space(lower-case($args.ditasearch.nohtml)) = ('yes','true'))"/>
     </xsl:variable>
     
-    <xsl:template match="/|node()|@*" mode="gen-user-header">
+    <xsl:template match="/|node()|@*" mode="gen-user-header" priority="0.5">
+        <!-- Other templates should take precedence and can call ditasearch-header -->
         <xsl:if test="$add-search-html">
-            <div class="ditasearch" data-searchroot="{$PATH2PROJ}"></div>
+            <xsl:call-template name="ditasearch-header"/>
         </xsl:if>
     </xsl:template>
     
-    <xsl:template match="/|node()|@*" mode="gen-user-footer">
+    <xsl:template name="ditasearch-header">
+        <div class="ditasearch" data-searchroot="{$PATH2PROJ}"></div>
+    </xsl:template>
+    
+    <xsl:template match="/|node()|@*" mode="gen-user-footer" priority="0.5">
+        <!-- Other templates should take precedence and can call ditasearch-footer -->
         <xsl:if test="$add-search-html">
-            <script src="{$PATH2PROJ}ditasearch.js"></script>
+            <xsl:call-template name="ditasearch-footer"/>
         </xsl:if>
+    </xsl:template>
+    
+    <xsl:template name="ditasearch-footer">
+        <script src="{$PATH2PROJ}ditasearch.js"></script>
     </xsl:template>
     
 </xsl:stylesheet>

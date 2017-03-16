@@ -4,14 +4,13 @@ var ditasearch = {
                     if (typeof ditasearch.div != "undefined") {
                         // Functional CSS 
                         var css = document.createTextNode('\
-.ditasearch { overflow: visible; height: 1.5em;  } \
-.ditasearch > * { width: 100%; margin: 0; padding: 2px; border: 1px solid #ccc; font: inherit; } \
+.ditasearch { overflow: visible; height: 1.5em; } \
+.ditasearch > * { width: 100%; margin: 0; padding: 2px; border: 1px solid #bfbfbf; font: inherit; } \
 .ditasearch > input {  } \
-.ditasearch > nav { max-height: 15em; overflow-y: auto; background: #ddd; \
-   opacity: .9; padding: 0 2px; border-top: 0px none;} \
+.ditasearch > nav { max-height: 15em; overflow-y: auto; background: #dfdfdf; opacity: .99; padding: 0 2px; border-top: 0px none;} \
 .ditasearch > nav > ol { margin: 10px 0 0 0; } \
 .ditasearch > nav > ol p { margin: 0 0 10px 0; font-size: 90%; } \
-.ditasearch > nav.dspending * { color: #999; } \
+.ditasearch > nav.dspending * { color: #bfbfbf; } \
 .ditasearch > nav.dshidden { display: none } \
                         ');
                         var style = document.createElement("STYLE");
@@ -30,15 +29,18 @@ var ditasearch = {
                         ditasearch.div.results = ditasearch.div.querySelector("nav");
                         
                         // Event handlers
-                        //ditasearch.div.querySelector("nav a").addEventListener("click", ditasearch.results.hide);
                         ditasearch.div.addEventListener("click", ditasearch.results.show);
+                        ditasearch.div.addEventListener("blur", ditasearch.cancel);
                         ditasearch.div.input.addEventListener("focus", ditasearch.results.show);
                         ditasearch.div.input.addEventListener("input", ditasearch.delaySearch);
-                        ditasearch.div.input.addEventListener("keydown", function(event){
+                        ditasearch.div.addEventListener("keydown", function(event){
                             if (event.keyCode == 27) { ditasearch.cancel(); }
                         });
                         ditasearch.div.addEventListener("click", function(event) { event.stopPropagation(); });
-                        document.getElementsByTagName("BODY")[0].addEventListener("click", ditasearch.results.hide);
+                        document.getElementsByTagName("BODY")[0].addEventListener("click", ditasearch.cancel);
+                        ditasearch.div.results.addEventListener("click", function ( event ) {
+                            if ( event.target.nodeName == 'A' ) { ditasearch.cancel() }
+                        });
                     }
     },
     timer       : null,
