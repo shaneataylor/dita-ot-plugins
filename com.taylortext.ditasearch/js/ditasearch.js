@@ -39,7 +39,10 @@ var ditasearch = {
                         ditasearch.div.addEventListener("click", function(event) { event.stopPropagation(); });
                         document.getElementsByTagName("BODY")[0].addEventListener("click", ditasearch.cancel);
                         ditasearch.div.results.addEventListener("click", function ( event ) {
-                            if ( event.target.nodeName == 'A' ) { ditasearch.cancel() }
+                            if ( event.target.nodeName == 'A' ) { 
+                                event.stopPropagation();
+                                ditasearch.cancel();
+                            }
                         });
                     }
     },

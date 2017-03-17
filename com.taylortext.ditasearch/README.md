@@ -10,7 +10,6 @@ Indexes HTML5 help topics
 
 ## TO DO
 
-* results still don't close on clicking a results link
 * navigate results with arrow keys
 * click or enter the entire result to open topic (?)
 * Use OT method to define strings for extensibility
