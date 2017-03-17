@@ -19,10 +19,12 @@ var ditasearch = {
                         document.getElementsByTagName("HEAD")[0].appendChild(style);
                         
                         // HTML
-                        ditasearch.div.innerHTML = '<input type="text" placeholder="' 
-                            + ditasearch.strings.search + '"><nav class="dshidden"></nav>';
+                        ditasearch.div.innerHTML = '<input type="text" placeholder="' + ditasearch.strings.input_placeholder 
+                            + '" aria-label="' + ditasearch.strings.input_aria_label 
+                            + '"><nav class="dshidden" aria-live="polite" aria-label="' + ditasearch.strings.results_aria_label 
+                            + '"></nav>';
                         ditasearch.div.setAttribute("role","search");
-                        ditasearch.div.setAttribute("aria-label","search");
+                        ditasearch.div.setAttribute("aria-label",ditasearch.strings.searchdiv_aria_label);
                         
                         // Shorthand for child elements
                         ditasearch.div.input = ditasearch.div.querySelector("input");
@@ -134,7 +136,7 @@ var ditasearch = {
                       if ( query == "") {
                           ditasearch.results.clear();
                       } else if ( results.length == 0 ) {
-                          results.push({ "title" : ditasearch.strings.noresults });
+                          results.push({ "title" : ditasearch.strings.results_no_results });
                           ditasearch.results.toHTML(results);
                       } else {
                           results.sort(function(a,b) {return b.score - a.score});
@@ -468,9 +470,7 @@ var ditasearch = {
         }
     },
     strings : {
-        search : "Search",
-        loading : "Loading",
-        noresults : "No topics found"
+//==STRINGS==//
     },
     configs : {
         stopwords : "stopwords are not indexed",

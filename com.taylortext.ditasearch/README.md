@@ -10,16 +10,11 @@ Indexes HTML5 help topics
 
 ## TO DO
 
-* navigate results with arrow keys
-* click or enter the entire result to open topic (?)
-* Use OT method to define strings for extensibility
-  * http://www.dita-ot.org/dev/dev_ref/plugin-addgeneratedtext.html
-  * strings include:
-    * Search
-    * Loading
-    * No results
-    * No title (in stemmer.xsl) 
-  * Add the resulting strings to ditsearch.js
+* Navigate results with arrow keys
+* Click or enter the entire result to open topic (?)
+* A11y: on pressing ENTER in search box, change focus to results
+* A11y/bonus: keyboard control to instantiate search?
+* Documentation for using plugin, including adding header/footer content in your own frame
 
 ## Future Enhancements
 * When changing search query, scroll to top of results

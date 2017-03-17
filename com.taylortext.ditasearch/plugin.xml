@@ -13,6 +13,7 @@
     <extension-point id="com.taylortext.ditasearch.post" name="Post-indexing target"/>
     
     <feature extension="dita.xsl.messages" file="messages.xml"/>
+    <feature extension="dita.xsl.strings" file="strings/strings.xml"/>
     <transtype name="html5">
         <param name="args.ditasearch.configs" 
             desc="Specifies an optional search configuration file containing stopwords, stemming exceptions, and synonyms.

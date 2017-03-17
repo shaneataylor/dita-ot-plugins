@@ -2,11 +2,16 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:fn="http://example.com/namespace"
+    xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot"
     xmlns:porter2="http://example.com/namespace"
-    exclude-result-prefixes="xs fn porter2"
+    exclude-result-prefixes="xs fn porter2 dita-ot"
     version="2.0">
     
     <xsl:import href="porter2.xsl"/>
+    
+    <xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"/>
+    <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
+    <xsl:variable name="msgprefix">DS</xsl:variable>
     
     <xsl:param name="scriptfile"/>
     
@@ -55,9 +60,12 @@
     </xsl:function>
     
     <xsl:template match="/">
+        <!-- The sequence here must match ditasearch.js -->
         <xsl:value-of select="substring-before($script,'//==EXCEPTIONLIST==//')"/>
         <xsl:apply-templates select="//exceptionalforms/exception"/>
-        <xsl:value-of select="fn:substring-between($script,'//==EXCEPTIONLIST==//','//==SYNONYMS==//')"/>
+        <xsl:value-of select="fn:substring-between($script,'//==EXCEPTIONLIST==//','//==STRINGS==//')"/>
+        <xsl:call-template name="addStrings"/>
+        <xsl:value-of select="fn:substring-between($script,'//==STRINGS==//','//==SYNONYMS==//')"/>
         <xsl:call-template name="synonyms"/>
         <xsl:value-of select="fn:substring-between($script,'//==SYNONYMS==//','//==HELPINDEX==//')"/>
         <xsl:call-template name="helpindex"/>
@@ -169,5 +177,24 @@
         </xsl:for-each>
     </xsl:template>
     
-
+    <xsl:template name="addStrings">
+        <xsl:variable name="format" as="xs:string">KEY:"VALUE"</xsl:variable>
+        <xsl:variable name="stringlist">
+            <string name="searchdiv_aria_label"/>
+            <string name="input_aria_label"/>
+            <string name="input_placeholder"/>
+            <string name="results_aria_label"/>
+            <string name="results_no_results"/>
+        </xsl:variable>
+        <xsl:for-each select="$stringlist/string">
+            <xsl:variable name="value">
+                <xsl:call-template name="getVariable">
+                    <xsl:with-param name="id" select="concat('ditasearch.',@name)"/>
+                </xsl:call-template>
+            </xsl:variable>
+            <xsl:if test="not(position() = 1)">,</xsl:if>
+            <xsl:value-of select="fn:JSONobj(@name,$value,$format)"/>
+        </xsl:for-each>
+    </xsl:template>
+    
 </xsl:stylesheet>
