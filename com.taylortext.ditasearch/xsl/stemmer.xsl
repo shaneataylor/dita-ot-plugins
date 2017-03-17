@@ -242,7 +242,7 @@
                 <xsl:otherwise><xsl:text>[No Title]</xsl:text></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="shortDesc"><xsl:apply-templates select=".//*[contains(@class, ' topic/shortdesc ')][1]" mode="topicSummary"/></xsl:variable>
+        <xsl:variable name="shortDesc"><xsl:apply-templates select="(.//*[contains(@class, ' topic/shortdesc ')])[1]" mode="topicSummary"/></xsl:variable>
         <topicSummary>
             <xsl:attribute name="href" select="$thishref"/>
             <xsl:attribute name="searchtitle" select="$searchTitle"/>
