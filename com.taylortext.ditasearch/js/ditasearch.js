@@ -7,8 +7,9 @@ var ditasearch = {
 .ditasearch { overflow: visible; height: 1.5em; } \
 .ditasearch > * { width: 100%; margin: 0; padding: 2px; border: 1px solid #bfbfbf; font: inherit; } \
 .ditasearch > input {  } \
-.ditasearch > nav { max-height: 15em; overflow-y: auto; background: #dfdfdf; opacity: .99; padding: 0 2px; border-top: 0px none;} \
-.ditasearch > nav > ol { margin: 10px 0 0 0; } \
+.ditasearch > nav { max-height: 15em; overflow-y: auto; background: #e7f2d2; opacity: .99; padding: 0 2px; border-top: 0px none;} \
+.ditasearch > nav > ol { margin: 10px 0 0 0; } .ditasearch > nav > ol > li {margin: 0 !important; padding: .25em !important;} \
+.ditasearch > nav > ol > li > a:focus {outline:0} .ditasearch > nav > ol > li.dsselected { background-color: #cae29d; } \
 .ditasearch > nav > ol p { margin: 0 0 10px 0; font-size: 90%; } \
 .ditasearch > nav.dspending * { color: #bfbfbf; } \
 .ditasearch > nav.dshidden { display: none } \
@@ -36,10 +37,16 @@ var ditasearch = {
                         ditasearch.div.input.addEventListener("focus", ditasearch.results.show);
                         ditasearch.div.input.addEventListener("input", ditasearch.delaySearch);
                         ditasearch.div.addEventListener("keydown", function(event){
-                            if (event.keyCode == 27) { ditasearch.cancel(); }
+                            ditasearch.keyboard( event );
                         });
                         ditasearch.div.addEventListener("click", function(event) { event.stopPropagation(); });
                         document.getElementsByTagName("BODY")[0].addEventListener("click", ditasearch.cancel);
+                        ditasearch.div.results.addEventListener("focus", function ( event ) {
+                            event.target.parentNode.className = "dsselected";
+                        }, true);
+                        ditasearch.div.results.addEventListener("blur", function ( event ) {
+                            event.target.parentNode.className = "";
+                        }, true);
                         ditasearch.div.results.addEventListener("click", function ( event ) {
                             if ( event.target.nodeName == 'A' ) { 
                                 event.stopPropagation();
@@ -47,6 +54,27 @@ var ditasearch = {
                             }
                         });
                     }
+    },
+    keyboard    : function ( event ) {
+                    var key = event.target.nodeName + "-" + event.which;
+                    var current = event.target;
+                    var navTarget = null;
+                    switch ( key ) {
+                        case "INPUT-27":    ditasearch.cancel(); break;
+                        case "A-27":        ditasearch.cancel(); break;
+                        case "INPUT-13":    event.stopPropagation(); navTarget = current.nextElementSibling; break;
+                        case "INPUT-40":    event.stopPropagation(); navTarget = current.nextElementSibling; break;
+                        case "A-40":        event.stopPropagation(); navTarget = current.parentNode.nextElementSibling; break;
+                        case "A-38":        event.stopPropagation(); 
+                                            navTarget = current.parentNode.previousElementSibling;
+                                            navTarget = (navTarget) ? navTarget : current.parentNode.parentNode.parentNode.previousElementSibling; 
+                                            break;
+                    }
+                    navTarget = (navTarget && (navTarget.nodeName == 'LI' || navTarget.nodeName == 'NAV')) 
+                        ? navTarget.getElementsByTagName("A")[0] : navTarget; 
+                    if (navTarget) { navTarget.focus(); }
+            // to style the active li:
+            // add/remove li class with onfocus/onblur events for the A child
     },
     timer       : null,
     cancel      : function() {
